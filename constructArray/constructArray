@@ -1,0 +1,33 @@
+#!/bin/python
+
+import math
+import os
+import random
+import re
+import sys
+
+
+# Complete the countArray function below.
+def countArray(n, k, x):
+    # Return the number of ways to fill in the array.
+    same = [0, k - 1]
+    different = [0, k - 2]
+
+    for index in range(2, n - 1):
+        same_possibilities = different[index - 1] * (k - 1)
+        different_possibilities = different[index - 1] * (k - 2) + same[index - 1]
+        same.append(same_possibilities % 1000000007)
+        different.append(different_possibilities % 1000000007)
+
+    return same[-1] if (x == 1) else different[-1]
+
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+    nkx = raw_input().split()
+    n = int(nkx[0])
+    k = int(nkx[1])
+    x = int(nkx[2])
+    answer = countArray(n, k, x)
+    fptr.write(str(answer) + '\n')
+    fptr.close()
